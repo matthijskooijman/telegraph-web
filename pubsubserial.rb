@@ -1,47 +1,31 @@
 require 'rubyserial'
-require 'optparse'
 require 'redis'
 
-$debug = false
-OptionParser.new do |opts|
-  opts.banner = "Usage: ./#{$0} [$options]"
+addr = '/dev/tty.usbmodem1411'
+baudrate = 57600
 
-  opts.on("-d", "--debug") do |f|
-    $debug = true
-  end
-end.parse!
-
-if $debug
-  $output = $stdout
-  $input = $stdin
-else
-  $output = Serial.new(@device, @baudrate)
-  $input = $output
-end
+$device = Serial.new(addr, baudrate)
 
 class PubSubSerial
-  @device = '/dev/tty.usbmodem1411'
-  @baudrate = 57600
-
   def self.run
-    Thread.new do 
+    Thread.new do
       Redis.new.subscribe "toPlayers" do |on|
         on.message do |channel, message|
-          # TODO: write to device
-          $output.puts message
+          puts "Sending to device: #{message}"
+
+          $device.write message
         end
       end
     end
 
     while(true)
-      # TODO: read from device
-      message = $input.gets.chomp
+      message = $device.read(100)
 
-      if $debug
-        puts message
+      if message != ""
+        puts "Received from device: #{message}"
+
+        Redis.new.publish("toSL", message)
       end
-
-      Redis.new.publish("toSL", message)
     end
   end
 end
