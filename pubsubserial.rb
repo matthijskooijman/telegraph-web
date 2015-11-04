@@ -1,7 +1,16 @@
 require 'rubyserial'
+require 'optparse'
 require 'redis'
 
-$debug = true
+$debug = false
+OptionParser.new do |opts|
+  opts.banner = "Usage: ./#{$0} [$options]"
+
+  opts.on("-d", "--debug") do |f|
+    $debug = true
+  end
+end.parse!
+
 if $debug
   $output = $stdout
   $input = $stdin
