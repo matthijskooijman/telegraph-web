@@ -25,7 +25,7 @@ Usage
 
 In one terminal, you just go:
 ```
-RAILS_ENV=production rails s
+RAILS_ENV=production rails s -b0
 ```
 and in another terminal, you go like:
 ```
