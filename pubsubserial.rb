@@ -1,5 +1,9 @@
-require 'rubyserial'
+ENV['RAILS_ENV'] ||= 'production'
+
 require 'redis'
+require 'rubyserial'
+
+require_relative 'config/environment'
 
 addr = '/dev/tty.usbmodem1411'
 baudrate = 57600
@@ -23,6 +27,10 @@ class PubSubSerial
 
       if message != ""
         puts "Received from device: #{message}"
+
+        Message.toSL.create do |m|
+          m.content = message
+        end
 
         Redis.new.publish("toSL", message)
       end
