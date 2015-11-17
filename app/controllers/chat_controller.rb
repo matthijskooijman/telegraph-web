@@ -14,16 +14,18 @@ class ChatController < ApplicationController
       end
 
       tubesock.onmessage do |m|
-        begin
-          Message.create! do |message|
-            message.content = m
+        if m !~ /\A\s*\z/
+          begin
+            Message.create! do |message|
+              message.content = m
+            end
+          rescue Exception => e
+            logger.fatal e
           end
-        rescue Exception => e
-          logger.fatal e
-        end
 
-        logger.debug("Sending to players: #{m}")
-        Redis.new.publish "toPlayers", m
+          logger.debug("Sending to players: #{m}")
+          Redis.new.publish "toPlayers", m
+        end
       end
 
       tubesock.onclose do
