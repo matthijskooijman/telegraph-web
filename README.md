@@ -6,8 +6,7 @@ The code that goes with a physrep for telegraph devices
 Requirements
 ------------
 * A working Redis installation at the default port
-* Some libraries preinstalled that make the installation step work. You'll notice if you don't have them
-
+* Some libraries preinstalled that make the installation step work. You'll notice if you don't have them.
 
 Installation
 ------------
@@ -32,6 +31,6 @@ and in another terminal, you go like:
 ruby pubsubserial.rb
 ```
 
-You can now visit the command center at http://localhost:3000
+You can now visit the command center at http://{ipaddress}:3000
 
 Happy, err, messaging?
