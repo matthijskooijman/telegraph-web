@@ -12,11 +12,10 @@ class ChatController < ApplicationController
           on.message do |channel, message|
             logger.debug("received message: #{message}")
 
-            if channel == "toPlayers"
-              tubesock.send_data Message.format(Message.toPlayers.new(content: message))
-            else
-              tubesock.send_data Message.format(Message.toSL.new(content: message))
-            end
+            scope = if channel == "toPlayers" then Message.toPlayers else Message.toSL end
+
+            m = scope.new(content: message, created_at: DateTime.now)
+            tubesock.send_data m.to_s
           end
         end
       end
