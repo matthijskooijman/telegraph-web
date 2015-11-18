@@ -32,9 +32,7 @@ class PubSubSerial
       if message != ""
         puts "Received from device: #{message}"
 
-        Message.toSL.create do |m|
-          m.content = message
-        end
+        Message.toSL.create_or_append(message)
 
         Redis.new.publish("toSL", message)
       end
