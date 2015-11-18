@@ -3,9 +3,9 @@ class Message < ActiveRecord::Base
 
   def to_s
     if toPlayers?
-      "<- #{created_at} SL said:      #{content}"
+      "<- #{created_at.to_s(:db)} - SL said:      #{content}"
     else
-      "-> #{created_at} Players said: #{content}"
+      "-> #{created_at.to_s(:db)} - Players said: #{content}"
     end
   end
 end
