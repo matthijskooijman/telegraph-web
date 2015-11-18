@@ -5,8 +5,14 @@ require 'rubyserial'
 
 require_relative 'config/environment'
 
-addr = '/dev/tty.usbmodem1411'
-baudrate = 57600
+addr = if File.exists?('./.arduino_address')
+  File.read('./.arduino_address').chomp 
+else
+  '/dev/tty.usbmodem1411'
+end
+
+puts "opening #{addr}"
+baudrate = 115200 
 
 $device = Serial.new(addr, baudrate)
 
@@ -26,6 +32,7 @@ class PubSubSerial
       end
     end
 
+    puts "entering run loop"
     while(true)
       message = $device.read(100)
 
