@@ -8,21 +8,17 @@ class ChatController < ApplicationController
           on.message do |channel, message|
             logger.debug("received message: #{message}")
 
-            tubesock.send_data message
+            if channel == "toPlayers"
+              tubesock.send_data Message.format(Message.toPlayers.new(content: message))
+            else
+              tubesock.send_data Message.format(Message.toSL.new(content: message))
+            end
           end
         end
       end
 
       tubesock.onmessage do |m|
         if m !~ /\A\s*\z/
-          begin
-            Message.create! do |message|
-              message.content = m
-            end
-          rescue Exception => e
-            logger.fatal e
-          end
-
           logger.debug("Sending to players: #{m}")
           Redis.new.publish "toPlayers", m
         end

@@ -15,6 +15,10 @@ class PubSubSerial
     Thread.new do
       Redis.new.subscribe "toPlayers" do |on|
         on.message do |channel, message|
+          Message.toPlayers.create do |m|
+            m.content = message
+          end
+
           puts "Sending to device: #{message}"
 
           $device.write message
