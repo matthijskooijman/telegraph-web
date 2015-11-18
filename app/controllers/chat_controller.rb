@@ -1,6 +1,10 @@
 class ChatController < ApplicationController
   include Tubesock::Hijack
 
+  def index
+    @messages = Message.order(:created_at)
+  end
+
   def chat
     hijack do |tubesock|
       redis_thread = Thread.new do
