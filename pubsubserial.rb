@@ -1,20 +1,26 @@
+#!/usr/bin/env ruby
+
 ENV['RAILS_ENV'] ||= 'production'
 
+require 'optparse'
 require 'redis'
 require 'rubyserial'
 
 require_relative 'config/environment'
 
-addr = if File.exists?('./.arduino_address')
-  File.read('./.arduino_address').chomp 
-else
-  '/dev/tty.usbmodem1411'
-end
-
-puts "opening #{addr}"
+address = '/dev/cu.usbmodem1421'
 baudrate = 115200 
 
-$device = Serial.new(addr, baudrate)
+OptionParser.new do |opts|
+  opts.banner = "Usage: ./#{$0} [options]"
+
+  opts.on("-a", "--address ADDRESS", "Specify device address") do |a|
+    address = a
+  end
+end.parse!
+
+puts "opening #{address}"
+$device = Serial.new(address, baudrate)
 
 class PubSubSerial
   def self.run
