@@ -12,12 +12,4 @@ class Message < ActiveRecord::Base
       create(content: text)
     end
   end
-
-  def to_s
-    if toPlayers?
-      "<- #{created_at.to_s(:db)} - SL said:      #{content}"
-    else
-      "-> #{created_at.to_s(:db)} - Players said: #{content}"
-    end
-  end
 end

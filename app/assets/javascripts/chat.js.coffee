@@ -7,6 +7,6 @@ $ ->
 
   $("body").on "submit", "form.message", (event) ->
     event.preventDefault()
-    $input = $(this).find("input")
+    $input = $(this).find("textarea")
     socket.send $input.val()
     $input.val(null)

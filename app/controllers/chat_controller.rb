@@ -1,5 +1,6 @@
 class ChatController < ApplicationController
   include Tubesock::Hijack
+  include ChatHelper
 
   def index
     @messages = Message.order(:created_at)
@@ -15,7 +16,7 @@ class ChatController < ApplicationController
             scope = if channel == "toPlayers" then Message.toPlayers else Message.toSL end
 
             m = scope.new(content: message, created_at: DateTime.now)
-            tubesock.send_data m.to_s
+            tubesock.send_data preformat(m)
           end
         end
       end
