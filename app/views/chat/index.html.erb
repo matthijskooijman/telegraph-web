@@ -1,10 +1,11 @@
 <h1>Orenda Morse Terminal</h1>
+
 <pre id="output">
-<% @messages.each do |message| -%>
+  <% @messages.each do |message| -%>
 <%= preformat(message) %>
-<% end -%>
+  <% end -%>
 </pre>
 <form class="message">
-  <textarea placeholder="Message to Players" autofocus></textarea>
+  <textarea placeholder="Message to Players" autofocus rows=5 cols=100></textarea><br>
   <input type="submit">
 </form>
