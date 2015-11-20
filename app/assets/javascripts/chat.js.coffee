@@ -24,7 +24,7 @@ $ ->
           messagesInLast10Seconds--
         , 10000
       else
-        #lastMessageType = "toPlayers"
+        lastMessageType = "toPlayers"
         $("#output").append "<br>#{event.data}"
 
   $("body").on 'keydown', "form textarea", (event) ->
