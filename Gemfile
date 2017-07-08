@@ -34,7 +34,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'redis'
 gem 'tubesock'
-gem 'puma'
+gem 'puma', '>= 3.0.0'
 
 gem 'rubyserial'
 
