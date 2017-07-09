@@ -22,7 +22,8 @@ You might need to update the `ExecStart` and `User` attributes in the
 `.service` file if you made checkout in a different place. Also, don't forget
 to setup the telegraph-controller daemon to actually talk to the hardware.
 
-You can now visit the command center at http://{ipaddress}
+After a reboot (or `sudo systemctl start telegraph-web.socket`), you can visit
+the command center at http://{ipaddress}
 
 Happy, err, messaging?
 
